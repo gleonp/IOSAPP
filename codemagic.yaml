@@ -7,11 +7,12 @@ workflows:
       cocoapods: default # Habilita el uso de CocoaPods
     scripts:
 
-    - name: Clean and remove iOS platform
+    # Limpiar el proyecto y eliminar la plataforma iOS
+      - name: Clean and remove iOS platform
         script: |
           cordova clean
-          cordova platform remove ios
-
+          cordova platform remove ios || true
+    
       - name: Install Cordova globally
         script: |
           npm install -g cordova      
