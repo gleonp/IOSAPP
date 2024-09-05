@@ -14,9 +14,9 @@ workflows:
         script: |
           npm install
 
-      - name: Install additional npm packages
+      - name: Install jq for language updates
         script: |
-          npm install jqlang.jq
+          brew install jq # Usa Homebrew para instalar jq
           
       - name: Update language packs
         script: |
