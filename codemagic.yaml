@@ -12,11 +12,11 @@ workflows:
 
       - name: Remove iOS platform
         script: |
-          cordova platform remove ios || true # Usa `|| true` para continuar incluso si la plataforma no está instalada
+          npm platform remove ios
 
       - name: Add iOS platform
         script: |
-          cordova platform add ios --verbose # Añade la plataforma iOS con salida detallada
+          npm platform add ios
 
       - name: Install npm dependencies
         script: |
