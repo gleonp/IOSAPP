@@ -10,7 +10,7 @@ workflows:
     - name: Clean and remove iOS platform
         script: |
           cordova clean
-          cordova platform remove ios || true
+          cordova platform remove ios
 
       - name: Install Cordova globally
         script: |
