@@ -5,6 +5,7 @@ workflows:
       node: 18.18.2 # Configura la versión de Node.js que necesitas
     scripts:
       - npm install
+      - npm i -g cordova-res
       - cordova-res
       - npm run prod:ios
     artifacts:
