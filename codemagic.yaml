@@ -18,9 +18,9 @@ workflows:
         script: |
           brew install jq # Usa Homebrew para instalar jq
           
-      - name: Update language packs
-        script: |
-          npm run lang:update-langpacks
+      #- name: Update language packs
+      #  script: |
+      #    npm run lang:update-langpacks
 
       - name: Install and run cordova-res
         script: |
