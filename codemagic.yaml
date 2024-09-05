@@ -10,6 +10,11 @@ workflows:
         script: |
           npm install -g cordova      
 
+      - name: Install CocoaPods
+        script: |
+          sudo gem install cocoapods
+          pod setup    
+
       - name: Install npm dependencies
         script: |
           npm install
