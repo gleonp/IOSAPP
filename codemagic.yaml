@@ -3,7 +3,6 @@ workflows:
     name: Default workflow
     scripts:
       - npm install
-      - cordova-res
       - npm run prod:ios
     artifacts:
       - platforms/ios/
