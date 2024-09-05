@@ -8,15 +8,7 @@ workflows:
     scripts:
       - name: Install Cordova globally
         script: |
-          npm install -g cordova
-
-      - name: Remove iOS platform
-        script: |
-          cordova platform remove ios
-
-      - name: Add iOS platform
-        script: |
-          cordova platform add ios
+          npm install -g cordova      
 
       - name: Install npm dependencies
         script: |
