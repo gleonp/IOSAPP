@@ -13,19 +13,16 @@ function get_app_version {
         return
     fi
 
-    if ! command -v jq &> /dev/null
-    then
-        echo "You need to install the jq program in order to run this command"
-        exit 1
-    fi
+    # Obtén la versión de la aplicación directamente desde moodle.config.json sin jq
+    APP_VERSION=$(grep -oP '"versionname": "\K[^"]+' ../moodle.config.json)
 
-    APP_VERSION=$(jq -r '.versionname' ../moodle.config.json| cut -d. -f1-2)
-    if [ ! -z "$APP_VERSION" ]; then
+    if [ -n "$APP_VERSION" ]; then
         export LANGVERSION=$APP_VERSION
         echo "Using app version $LANGVERSION"
         return
+    else
+        echo "Failed to determine the app version."
+        exit 1
     fi
-
-    echo "Cannot decide version"
-    exit 1
 }
+

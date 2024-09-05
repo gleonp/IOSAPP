@@ -3,10 +3,41 @@ workflows:
     name: Default workflow
     environment:
       node: 18.18.2 # Configura la versión de Node.js que necesitas
+      xcode: latest
+      cocoapods: default # Habilita el uso de CocoaPods
     scripts:
-      - npm install
-      - npm i -g cordova-res
-      - cordova-res
-      - npm run prod:ios
+      - name: Install Cordova globally
+        script: |
+          npm install -g cordova
+
+      - name: Remove iOS platform
+        script: |
+          cordova platform remove ios || true # Usa `|| true` para continuar incluso si la plataforma no está instalada
+
+      - name: Add iOS platform
+        script: |
+          cordova platform add ios --verbose # Añade la plataforma iOS con salida detallada
+
+      - name: Install npm dependencies
+        script: |
+          npm install
+
+      - name: Install additional npm packages
+        script: |
+          npm install jqlang.jq
+          
+      - name: Update language packs
+        script: |
+          npm run lang:update-langpacks
+
+      - name: Install and run cordova-res
+        script: |
+          npm i -g cordova-res
+          cordova-res
+
+      - name: Build iOS app
+        script: |
+          npm run prod:ios
+
     artifacts:
-      - platforms/ios/
+      - platforms/ios/**/*
