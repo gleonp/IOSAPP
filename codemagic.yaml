@@ -1,8 +1,11 @@
 workflows:
   default:
     name: Default workflow
+    environment:
+      node: 18.18.2 # Configura la versión de Node.js que necesitas
     scripts:
       - npm install
+      - cordova-res
       - npm run prod:ios
     artifacts:
       - platforms/ios/
