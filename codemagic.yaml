@@ -13,7 +13,8 @@ workflows:
       - name: Install CocoaPods
         script: |
           sudo gem install cocoapods
-          pod setup    
+          pod setup
+          pod repo update 
 
       - name: Install npm dependencies
         script: |
