@@ -32,8 +32,8 @@ workflows:
 
       - name: Modify Xcode project settings
         script: |
-          PLIST_PATH:"platforms/ios/Formación virtual para ti.xcodeproj/project.pbxproj"
-          sed -i '' 's/LD_RUNPATH_SEARCH_PATHS = .*;/LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";/' $PLIST_PATH
+          PLIST_PATH:"platforms/ios/Formación\ virtual\ para\ ti.xcodeproj/project.pbxproj"
+          sed -i '' "s/LD_RUNPATH_SEARCH_PATHS = .*/LD_RUNPATH_SEARCH_PATHS = \$(inherited) @executable_path\/Frameworks;/" $PLIST_PATH
 
       - name: Update Podfile to suppress warnings
         script: |
