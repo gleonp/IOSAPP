@@ -29,6 +29,8 @@ workflows:
     - name: Install npm dependencies
       script: |
         npm install
+        cordova plugin add cordova-plugin-moodleapp
+        cordova platform add ios
 
     - name: Install jq for language updates
       script: |
