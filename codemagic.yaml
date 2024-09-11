@@ -28,58 +28,57 @@ workflows:
           echo "Xcode project found"
         fi
 
+    - name: Install Cordova globally
+      script: |
+        npm install -g cordova
 
-      - name: Install Cordova globally
-        script: |
-          npm install -g cordova
+    - name: Install CocoaPods
+      script: |
+        sudo gem install cocoapods
+        pod setup
+        pod repo update
 
-      - name: Install CocoaPods
-        script: |
-          sudo gem install cocoapods
-          pod setup
-          pod repo update
+    - name: Remove CocoaPods master specs repo
+      script: |
+        pod repo remove master
 
-      - name: Remove CocoaPods master specs repo
-        script: |
-          pod repo remove master
+    - name: Install npm dependencies
+      script: |
+        npm install
 
-      - name: Install npm dependencies
-        script: |
-          npm install
+    - name: Install jq for language updates
+      script: |
+        brew install jq
 
-      - name: Install jq for language updates
-        script: |
-          brew install jq
+    - name: Modify Xcode project settings
+      script: |
+        PLIST_PATH:"platforms/ios/FormacionVirtualParaTi.xcodeproj/project.pbxproj"
+        sed -i '' 's/LD_RUNPATH_SEARCH_PATHS = .*;/LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";/' $PLIST_PATH
 
-      - name: Modify Xcode project settings
-        script: |
-          PLIST_PATH:"platforms/ios/FormacionVirtualParaTi.xcodeproj/project.pbxproj"
-          sed -i '' 's/LD_RUNPATH_SEARCH_PATHS = .*;/LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";/' $PLIST_PATH
-
-      - name: Update Podfile to suppress warnings
-        script: |
-          echo "post_install do |installer|
-            installer.pods_project.build_configurations.each do |config|
-              config.build_settings['LD_RUNPATH_SEARCH_PATHS'] = '$(inherited) @executable_path/Frameworks'
-            end
-            installer.pod_targets.each do |pod|
-              if pod.name.eql?('Pods-Formación virtual para ti')
-                pod.native_target.build_configurations.each do |config|
-                  config.build_settings['LD_RUNPATH_SEARCH_PATHS'] = '$(inherited) @executable_path/Frameworks'
-                end
+    - name: Update Podfile to suppress warnings
+      script: |
+        echo "post_install do |installer|
+          installer.pods_project.build_configurations.each do |config|
+            config.build_settings['LD_RUNPATH_SEARCH_PATHS'] = '$(inherited) @executable_path/Frameworks'
+          end
+          installer.pod_targets.each do |pod|
+            if pod.name.eql?('Pods-Formación virtual para ti')
+              pod.native_target.build_configurations.each do |config|
+                config.build_settings['LD_RUNPATH_SEARCH_PATHS'] = '$(inherited) @executable_path/Frameworks'
               end
             end
-          end" >> platforms/ios/Podfile
+          end
+        end" >> platforms/ios/Podfile
 
-      - name: Install and run cordova-res
-        script: |
-          npm i -g cordova-res
-          cordova-res
+    - name: Install and run cordova-res
+      script: |
+        npm i -g cordova-res
+        cordova-res
 
-      - name: Build iOS app with verbose logging
-        script: |
-          cordova platform add ios --save --verbose
-          npm run prod:ios
+    - name: Build iOS app with verbose logging
+      script: |
+        cordova platform add ios --save --verbose
+        npm run prod:ios
 
     artifacts:
       - platforms/ios/**/*
