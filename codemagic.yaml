@@ -38,18 +38,13 @@ workflows:
 
     - name: Update Podfile to suppress warnings
       script: |
-        echo "post_install do |installer|
-          installer.pods_project.build_configurations.each do |config|
-            config.build_settings['LD_RUNPATH_SEARCH_PATHS'] = '$(inherited) @executable_path/Frameworks'
-          end
-          installer.pod_targets.each do |pod|
-            if pod.name.eql?('Pods-Formación virtual para ti')
-              pod.native_target.build_configurations.each do |config|
-                config.build_settings['LD_RUNPATH_SEARCH_PATHS'] = '$(inherited) @executable_path/Frameworks'
-              end
-            end
-          end
-        end" >> platforms/ios/Podfile
+        echo 'post_install do |installer|
+        installer.pods_project.build_configurations.each do |config|
+          config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+          config.build_settings["LD_RUNPATH_SEARCH_PATHS"] = "$(inherited) @executable_path/Frameworks"
+        end
+        end' >> platforms/ios/Podfile
+
 
     - name: Install and run cordova-res
       script: |
