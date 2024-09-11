@@ -8,7 +8,7 @@ workflows:
     scripts:
 
     - name: Clean npm and CocoaPods dependencies
-        script: |
+      script: |
           npm cache clean --force
           rm -rf node_modules
           rm -rf platforms/ios/Pods
