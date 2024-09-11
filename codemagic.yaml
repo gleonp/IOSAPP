@@ -10,12 +10,11 @@ workflows:
         script: |
           npm install -g cordova
 
-      - name: Install npm dependencies
+      - name: Clean and install npm dependencies
         script: |
+          rm -rf node_modules
           npm install
-          npm audit fix
-          # Optional: If npm audit fix does not resolve all issues, use the following command with caution
-          # npm audit fix --force
+          npm audit fix --force
 
       - name: Add and configure Cordova plugins
         script: |
