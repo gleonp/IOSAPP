@@ -30,6 +30,13 @@ workflows:
         script: |
           brew install jq
 
+      - name: Check if iOS platform exists
+        script: |
+        if [ ! -f "platforms/ios/Formación virtual para ti.xcodeproj/project.pbxproj" ]; then
+        echo "Xcode project not found, please ensure iOS platform is added correctly"
+        exit 1
+        fi
+
       - name: Modify Xcode project settings
         script: |
           PLIST_PATH:"platforms/ios/Formación\ virtual\ para\ ti.xcodeproj/project.pbxproj"
