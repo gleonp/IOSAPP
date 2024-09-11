@@ -6,46 +6,37 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
+      - name: Install Cordova globally
+        script: |
+          npm install -g cordova
 
-    - name: Clean and remove iOS platform
-      script: |
-        cordova clean
-        cordova platform remove ios || true
+      - name: Install npm dependencies and Cordova plugins
+        script: |
+          npm install
+          npm audit fix
+          cordova plugin add cordova-plugin-moodleapp
+          cordova platform add ios
 
-    - name: Install Cordova globally
-      script: |
-        npm install -g cordova
+      - name: Install CocoaPods and Dependencies
+        script: |
+          sudo gem install cocoapods
+          pod setup
+          pod repo update
+          pod install
 
-    - name: Install CocoaPods
-      script: |
-        sudo gem install cocoapods
-        pod setup
-        pod repo update
+      - name: Install jq for language updates
+        script: |
+          brew install jq
 
-    - name: Remove CocoaPods master specs repo
-      script: |
-        pod repo remove master
+      - name: Install and run cordova-res
+        script: |
+          npm install -g cordova-res
+          cordova-res
 
-    - name: Install npm dependencies
-      script: |
-        npm install
-        cordova plugin add cordova-plugin-moodleapp
-        cordova platform add ios
-
-    - name: Install jq for language updates
-      script: |
-        brew install jq
-
-
-    - name: Install and run cordova-res
-      script: |
-        npm i -g cordova-res
-        cordova-res
-
-    - name: Build iOS app with verbose logging
-      script: |
-        cordova platform add ios --save --verbose
-        npm run prod:ios
+      - name: Build iOS app with verbose logging
+        script: |
+          cordova platform add ios --save --verbose
+          npm run prod:ios
 
     artifacts:
       - platforms/ios/**/*
