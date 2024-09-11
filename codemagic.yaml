@@ -7,6 +7,27 @@ workflows:
       cocoapods: default
     scripts:
 
+    - name: Clean npm and CocoaPods dependencies
+        script: |
+          npm cache clean --force
+          rm -rf node_modules
+          rm -rf platforms/ios/Pods
+          pod deintegrate
+
+    - name: Clean and remove iOS platform
+        script: |
+          cordova clean
+          cordova platform remove ios || true
+
+    - name: Check if Xcode project exists
+      script: |
+        if [ ! -f "platforms/ios/FormacionVirtualParaTi.xcodeproj/project.pbxproj" ]; then
+          echo "Xcode project not found, please check the path"
+          exit 1
+        else
+          echo "Xcode project found"
+        fi
+
 
       - name: Install Cordova globally
         script: |
