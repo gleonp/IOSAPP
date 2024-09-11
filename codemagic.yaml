@@ -12,16 +12,16 @@ workflows:
         script: |
           cordova clean
           cordova platform remove ios || true
-    
+
       - name: Install Cordova globally
         script: |
-          npm install -g cordova      
+          npm install -g cordova
 
       - name: Install CocoaPods
         script: |
           sudo gem install cocoapods
           pod setup
-          pod repo update 
+          pod repo update
 
       - name: Install npm dependencies
         script: |
@@ -30,15 +30,23 @@ workflows:
       - name: Install jq for language updates
         script: |
           brew install jq # Usa Homebrew para instalar jq
-          
+
       #- name: Update language packs
       #  script: |
       #    npm run lang:update-langpacks
+
 
       - name: Install and run cordova-res
         script: |
           npm i -g cordova-res
           cordova-res
+
+      - name: Modify Xcode project settings
+        script: |
+        PLIST_PATH="platforms/ios/Formación virtual para ti.xcodeproj/project.pbxproj"
+        # Replace LD_RUNPATH_SEARCH_PATHS
+        sed -i '' 's/LD_RUNPATH_SEARCH_PATHS = .*;/LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";/' $PLIST_PATH
+
 
       - name: Build iOS app
         script: |
