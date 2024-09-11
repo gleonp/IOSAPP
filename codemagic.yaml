@@ -20,7 +20,6 @@ workflows:
           rm -rf node_modules
           rm package-lock.json
           npm cache clean --force
-          npm update || true
           npm install
           npm audit fix --force
 
