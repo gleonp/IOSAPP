@@ -6,15 +6,6 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-  - name: Clean npm and CocoaPods dependencies
-    script: |
-      if [ -d "platforms/ios" ]; then
-        cd platforms/ios
-        pod deintegrate || true
-        pod install || true
-        cd ../..
-      fi
-      npm ci --force
 
 
       - name: Install Cordova globally
