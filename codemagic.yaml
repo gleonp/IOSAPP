@@ -10,11 +10,17 @@ workflows:
         script: |
           npm install -g cordova
 
-      - name: Install npm dependencies and Cordova plugins
+      - name: Install npm dependencies
         script: |
           npm install
-          npm audit fix --force
-          cordova plugin add cordova-plugin-moodleapp
+          npm audit fix
+          # Optional: If npm audit fix does not resolve all issues, use the following command with caution
+          # npm audit fix --force
+
+      - name: Add and configure Cordova plugins
+        script: |
+          cordova plugin add cordova-plugin-moodleapp || true
+          cordova platform rm ios || true
           cordova platform add ios
 
       - name: Install CocoaPods and Dependencies
