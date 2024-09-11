@@ -12,15 +12,6 @@ workflows:
         cordova clean
         cordova platform remove ios || true
 
-    - name: Check if Xcode project exists
-      script: |
-        if [ ! -f "platforms/ios/FormacionVirtualParaTi.xcodeproj/project.pbxproj" ]; then
-          echo "Xcode project not found, please check the path"
-          exit 1
-        else
-          echo "Xcode project found"
-        fi
-
     - name: Install Cordova globally
       script: |
         npm install -g cordova
@@ -43,10 +34,7 @@ workflows:
       script: |
         brew install jq
 
-    - name: Modify Xcode project settings
-      script: |
-        PLIST_PATH:"platforms/ios/FormacionVirtualParaTi.xcodeproj/project.pbxproj"
-        sed -i '' 's/LD_RUNPATH_SEARCH_PATHS = .*;/LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";/' $PLIST_PATH
+
 
     - name: Update Podfile to suppress warnings
       script: |
